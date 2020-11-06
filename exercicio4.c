@@ -19,21 +19,6 @@ int power(int base, int exponent){
     return mul;
 }
 
-void printb(int n){
-    int i = 1;
-    while (n) {
-        if (n & 1)
-            printf("1");
-        else
-            printf("0");
-        if ( i % 4 == 0 )
-            printf("%c", ' ');
-        i++;
-        n >>= 1;
-    }
-    printf("\n");
-}
-
 int countDigits(int n){
     int numDigits = 0;
     while (n != 0){
@@ -142,65 +127,10 @@ size_t print_float(char *buffer, size_t buffer_size, float value){
     return (buffer - arrayBegin) - 1;
 }
 
-void print(float foo){
-    printf("%s %f \n", "Original value = ", foo);
-    // Get bytes of float.
-    unsigned int float_value = *(unsigned int *) &foo;
-
-    // Set sign, exponent and sign in there corresponding variables.
-    unsigned int mantissa = float_value & MANTISSA_MASK;
-
-    float_value = float_value >> MANTISSA_SIZE;
-    unsigned int exponent = float_value & EXPONENT_MASK;
-
-    float_value = float_value >> EXPONENT_SIZE;
-    unsigned int sign = float_value & SIGN_MASK;
-
-    // dividir por 2 ^ 23 e multiplicar por 2 ^ 4
-
-    int dec_places = 6;
-    int shift = (MANTISSA_SIZE - dec_places);
-//    printb(mantissa);
-//    printb((1 << MANTISSA_SIZE) | mantissa);
-    mantissa = ((1 << MANTISSA_SIZE) | mantissa) << exponent - EXPONENT_SUB;
-
-
-    int integer = mantissa >> MANTISSA_SIZE;
-    int decimal_places = mantissa & MANTISSA_MASK;
-    int fraction10 = (decimal_places >> shift) * power(10, dec_places);
-    int fraction =  fraction10 >> dec_places;
-    //    printf("%s %d - ", "RESULT: ", mantissa);
-    //    printb(mantissa);
-    //    printf("%s %d - ", "DECIMAL:", decimal);
-    //    printb(decimal);
-    //    printf("%s %d - ", "FRACTION10: ", fraction10);
-    //    printb(fraction);
-    //    printf("%s %d - ", "FRACTION: ", fraction);
-    //    printb(fraction);
-
-    printf("Integer+/- = %c%d.%d\n",(sign) ? '-': ' ', integer, fraction);
-}
-
-int main (){
+int main () {
     float foo;
-    char buffer[100] = "";
+    char buffer[20] = "";
     foo = -118.625f;
     int size = print_float(&buffer, sizeof(buffer), foo);
     printf("Initial value = %f \nEnding value = %s\nSize of string = %d\n", foo, buffer, size);
-//    foo = -118.625f;
-//    print_float(foo, 6);
-//    print_float(foo, 6);
-//    foo =-15.9999980927f;
-//    print(foo);
-    foo = -118.625f;
-    print(foo);
-//
-//    foo = -50.31231234f;
-//    print(foo);
-//    foo = 2.31231234f;
-//    print(foo);
-//    foo =1.2f;
-//    print(foo);
-//    print_float(foo, 6);
 }
-
