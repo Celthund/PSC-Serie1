@@ -133,4 +133,8 @@ int main () {
     foo = -118.625f;
     int size = print_float(&buffer, sizeof(buffer), foo);
     printf("Initial value = %f \nEnding value = %s\nSize of string = %d\n", foo, buffer, size);
+    foo = 1.2f;
+    size = print_float(&buffer, sizeof(buffer), foo);
+    printf("Initial value = %f \nEnding value = %s\nSize of string = %d\n", foo, buffer, size);
+    return 0;
 }
