@@ -49,7 +49,6 @@ void setbits(unsigned long data[], size_t idx, size_t len, unsigned long val){
 }
 
 int main (){
-    printf("%d\n", sizeof(unsigned long));
     unsigned long int data[] = {0xBFFFFFECABCD1234, 0xC, 2, 3};
     unsigned long number = getbits(data, 29, 8);
     printf("0x%lx\n", number);
