@@ -3,7 +3,7 @@
 #include <memory.h>
 
 int isseperator(char c){
-    return isspace(c) | c == ',';
+    return isspace(c) | (c == ',');
 }
 
 int string_split(char *text, char *words[], size_t words_size){
