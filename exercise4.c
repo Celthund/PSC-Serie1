@@ -9,9 +9,14 @@
 
 #define EXPONENT_SUB 127
 
+/**
+ * Return the base to the power of exponent as integer isntead of float.
+ * @param base number to be used as based.
+ * @param exponent number to be used as exponent.
+ * @return
+ */
 int power(int base, int exponent){
     if (exponent == 0) return 1;
-    if (base == 2) return base << exponent -1;
     int mul = base;
     for (int i = 1; i < exponent; i++){
         mul *= base;
@@ -28,8 +33,15 @@ int countDigits(int n){
     return numDigits;
 }
 
+/**
+ * Return a string in decimal with 6 decimal spaces in the float without using float operations.
+ * Note if there is no space in the buffer to represent the whole number it will return 0;
+ * @param buffer where string will be placed.
+ * @param buffer_size buffer sized.
+ * @param value float number to use to calculate.
+ * @return
+ */
 size_t print_float(char *buffer, size_t buffer_size, float value){
-    char *arrayBegin = buffer;
     // Save the float 32 bits in a unsigned int.
     unsigned int float_value = *(unsigned int *) &value;
 
@@ -82,21 +94,21 @@ size_t print_float(char *buffer, size_t buffer_size, float value){
         return 0;
     }
 
+
     // Number of decimal places that should stay
-    int dec_places = 6;
-    // Number of shifts that can be made before losing the required decimal place.
-    int shift = (MANTISSA_SIZE - dec_places);
-    mantissa = ((1 << MANTISSA_SIZE) | mantissa) << exponent - EXPONENT_SUB;
+    unsigned int dec_places = 6;
+    unsigned long long int val = ((1 << MANTISSA_SIZE) | mantissa) << (exponent - EXPONENT_SUB);
 
     // After add 1 to the mantissa and multiplying by 2 ^ exponent - 127
     // the integer part of the number is all the bits after the mantissa.
-    int integer = mantissa >> MANTISSA_SIZE;
+    unsigned int integer = val >> MANTISSA_SIZE;
     // The decimal part is the whole mantissa_mask
     // We shift here to the right for not overflowing the int size when multiplying by 10^(number of decimal places).
-    int decimal = (((mantissa & MANTISSA_MASK) >> shift) * power(10, dec_places)) >> dec_places;
+    unsigned long long int decimal = (((val & MANTISSA_MASK)) *  power(10, dec_places)) >> MANTISSA_SIZE;
 
     // Get integer and decimal size so its easier to add the chars corresponding to the number to the buffer
     int i, integer_size = countDigits(integer), decimal_size = countDigits(decimal);
+    char *arrayBegin = buffer;
     char number;
     // Check if there is space in the array put the number with the following format
     // integer.decimal followed by end of string.
@@ -133,7 +145,7 @@ int main () {
     foo = -118.625f;
     int size = print_float(&buffer, sizeof(buffer), foo);
     printf("Initial value = %f \nEnding value = %s\nSize of string = %d\n", foo, buffer, size);
-    foo = 1.2f;
+    foo = 0;
     size = print_float(&buffer, sizeof(buffer), foo);
     printf("Initial value = %f \nEnding value = %s\nSize of string = %d\n", foo, buffer, size);
     return 0;
