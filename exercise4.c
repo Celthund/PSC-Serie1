@@ -143,10 +143,10 @@ int main () {
     float foo;
     char buffer[20] = "";
     foo = -118.625f;
-    int size = print_float(&buffer, sizeof(buffer), foo);
+    int size = print_float(buffer, sizeof(buffer), foo);
     printf("Initial value = %f \nEnding value = %s\nSize of string = %d\n", foo, buffer, size);
     foo = 0;
-    size = print_float(&buffer, sizeof(buffer), foo);
+    size = print_float(buffer, sizeof(buffer), foo);
     printf("Initial value = %f \nEnding value = %s\nSize of string = %d\n", foo, buffer, size);
     return 0;
 }
