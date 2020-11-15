@@ -6,6 +6,13 @@ int isseperator(char c){
     return isspace(c) | (c == ',');
 }
 
+/**
+ * Separate a string by words to a an array until it runs out of space or the word ends.
+ * @param text
+ * @param words
+ * @param words_size
+ * @return
+ */
 int string_split(char *text, char *words[], size_t words_size){
     char *begin_word = &text[0], *current_char = &text[0];
     int found_words = 0;
